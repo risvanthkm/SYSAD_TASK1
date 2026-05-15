@@ -7,10 +7,10 @@ users=()
 for i in wardens guards bashers; do
 	getent group "$i" || groupadd "$i" 
 
-
 	while read -r name; do
 		users+=("$name")
-		if [[ "$c" -eq 0 ]] ; then 
+		if [[ "$c" -eq 0 ]] ; then
+			if [[ -z $( getent passwd "$name") ]]; then  
 			useradd -m -d /home/wardens/$name -s /bin/bash -G wardens "$name"
 			chown -R "$name:$name" /home/wardens/$name	
 			mkdir -p /home/wardens/$name/.ssh
@@ -28,8 +28,12 @@ for i in wardens guards bashers; do
 			alias allout='clear'
 			alias mog='tail'  
 EOF
+			else
+			echo "User already exits"
+			fi
 					
 		elif [[ "$c" -eq 1 ]] ; then 
+			if [[ -z $( getent passwd "$name") ]]; then  
 			useradd -m -d /home/guards/$name -s /bin/bash -G guards "$name"
 			chown -R "$name:$name" /home/guards/$name
 			mkdir -p /home/guards/$name/.ssh
@@ -47,11 +51,17 @@ EOF
 			alias nuke='clear'
 			alias last='tail'
 EOF
+			else
+			echo "User already exits"
+			fi
 			
 		elif [[ "$c" -eq 2 ]] ; then 
+			if [[ -z $( getent passwd "$name") ]]; then  
 			useradd -m -d /home/bashers/$name -s /bin/bash -G bashers "$name"
 			chown -R "$name:$name" /home/bashers/$name
 			mkdir -p /home/bashers/$name/Drop_Zone
+			setfacl -m g:wardens:rwx /home/bashers/$name
+			setfacl -d -m g:wardens:rwx /home/bashers/$name
 			setfacl -m g:guards:rwx /home/bashers/$name
 			setfacl -d -m g:guards:rwx /home/bashers/$name
 			passwd -l "$name"
@@ -85,6 +95,10 @@ EOF
 			EOF
 			
 			echo "trap 'sudo /scripts/LPenalty.sh \"\$BASH_COMMAND\" \"\$USER\"' DEBUG" >> "/home/bashers/$name/.bashrc"
+			
+			else
+			echo "User already exits"
+			fi
 		fi
 			
 		echo $name

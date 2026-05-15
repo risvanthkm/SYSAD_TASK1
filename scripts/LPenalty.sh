@@ -52,9 +52,12 @@ if [[ $total_penalty -gt $threshold ]]; then
 
 	if [[ "$current_shell" != "/bin/rbash" ]]; then
     	usermod -s /bin/rbash "$user_name"
-    	pkill -KILL -u "$user_name"
-    	nohup bash -c "sleep 1800; rm -f '$txt_file'; usermod -s /bin/bash '$user_name'" &>/dev/null &
-		disown
+    	pkill -u "$user_name" -o
+		(
+		    sleep 1800
+		    usermod -s /bin/bash "$user_name"
+		    rm -f "$txt_file"
+		) & disown
 	fi
 fi
 

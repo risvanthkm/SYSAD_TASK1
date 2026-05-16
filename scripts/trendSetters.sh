@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if ! id -Gn | grep -qw "wardens"; then
-	echo "Access denied: wardens only."
-    exit 1
-fi
-
 leaderboard="leaderboard.log"
 heist="heist.log"
 streak_factor=200

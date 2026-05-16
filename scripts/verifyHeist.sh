@@ -1,6 +1,6 @@
 #!/bin/bash
 
-slangfile="slang.txt"
+slangfile="/scripts/slang.txt"
 logfile="heist.log"
 
 while true; do 

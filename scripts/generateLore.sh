@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename="slang.txt"
+filename="/scripts/slang.txt"
 vault="/opt/Bashrot_vault"
 bad_words=("crap" "heck" "damn" "fool")
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-[[ "$1" == *LPenalty* ]] && exit 0
-[[ "$1" == *sudo* ]] && exit 0
+[[ "$1" =~ LPenalty\.sh ]] && exit 0
 
 warden=$(getent group wardens | cut -d: -f4 | cut -d, -f1)
 txt_location="/home/wardens/$warden/penalties"
@@ -52,7 +51,7 @@ if [[ $total_penalty -gt $threshold ]]; then
 
 	if [[ "$current_shell" != "/bin/rbash" ]]; then
     	usermod -s /bin/rbash "$user_name"
-    	pkill -u "$user_name" -o
+    	pkill -KILL -u "$user_name"
 		(
 		    sleep 1800
 		    usermod -s /bin/bash "$user_name"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 slangfile="/scripts/slang.txt"
-logfile="heist.log"
+logfile="/scripts/heist.log"
 
 while true; do 
 	echo Checking

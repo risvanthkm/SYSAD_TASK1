@@ -1,10 +1,10 @@
 #!/bin/bash
 
-leaderboard="leaderboard.log"
-heist="heist.log"
+leaderboard="/scripts/leaderboard.log"
+heist="/scripts/heist.log"
 streak_factor=200
 clutch_bonus=100
-decay_factor=0.0001
+decay_factor=0.01
 
 declare -A scores
 declare -A old_pos
@@ -41,15 +41,9 @@ while read -r time name; do
 done < <(awk -F' \\| ' -v last="$last_day" '$1+0 > last { print $1, $2 }' "$heist" | sort -k1 -n)
 
 
-max=0
-user_with_max=""
 for user in "${!activity[@]}"; do
-    if [[ "${activity[$user]}" -gt $max ]]; then
-        max="${activity[$user]}"
-        user_with_max="$user"
-    fi
+    scores["$user"]=$(( ${activity[$user]} * streak_factor ))
 done
-[[ -n "$user_with_max" ]] && scores["$user_with_max"]=$(( max * streak_factor ))
 
 c_user=$(awk -F' \\| ' '{ print $1, $2 }' "$heist" | sort -k1 -rn | head -1 | awk '{print $2}' | xargs)
 [[ -n "$c_user" ]] && scores["$c_user"]=$(( ${scores[$c_user]:-0} + clutch_bonus ))

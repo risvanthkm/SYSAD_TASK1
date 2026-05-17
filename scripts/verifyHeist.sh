@@ -22,7 +22,7 @@ while true; do
 
         done < "$slangfile"
 	done
-	sleep 59
+	sleep 60
 done			
 			
 

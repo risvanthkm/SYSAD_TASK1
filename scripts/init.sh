@@ -6,14 +6,12 @@ for i in wardens guards bashers; do
 done
 
 sudo echo '%wardens ALL=(root) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/permw
-sudo echo '%guards ALL=(root) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/permg
-
-echo 'export PATH=$PATH:/scripts' | sudo tee /etc/profile.d/scripts.sh
-
-chmod 644 /etc/profile.d/scripts.sh
 
 echo 'ALL ALL=(root) NOPASSWD: /scripts/LPenalty.sh' | sudo tee /etc/sudoers.d/penalty
 chmod 440 /etc/sudoers.d/penalty
+
+echo 'ALL ALL=(root) NOPASSWD: /scripts/collectTax.sh' | sudo tee /etc/sudoers.d/guard
+chmod 440 /etc/sudoers.d/guard
 
 
 chown root:root /scripts/*

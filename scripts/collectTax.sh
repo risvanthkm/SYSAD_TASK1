@@ -5,16 +5,11 @@ logFilename="aura_tax_log.log"
 scriptLocation="/scripts/collectTax.sh"
 
 du -sm "$path"/*/ | awk '$1 > 5 {print $2}' | while read -r userdir; do
-	find "$userdir/" -type f -not -name ".bashrc" -not -name ".avatar.txt" -printf '%T@ %p %s\n' | sort -n | head -3 | while read -r files ; do
-
-		timestamp=$(echo "$files" | cut -d' ' -f1) 
-		filename=$(echo "$files" | cut -d' ' -f2) 
-		size=$(echo "$files" | cut -d' ' -f3)
+	find "$userdir/" -type f -not -name ".bashrc" -not -name ".avatar.txt" -printf '%T@ %p %s\n' | sort -n | head -3 | while read -r timestamp filename size; do
 		size_kb=$(echo "scale=2; $size/1024" | bc)
-		
 		username=$(basename "$userdir")
 		echo "[$timestamp] | $username | $size_kb | $filename" >> "$logFilename"
-		rm "$filename"  
+		rm -- "$filename"  
 	done
 done
 
@@ -31,7 +26,7 @@ else
 	echo "**NO LOGS**"
 fi
 
-(crontab -l 2>/dev/null; echo "*/5 * * * 5-6 $scriptLocation") | crontab -
+crontab -l | grep -q "$scriptLocation" || (crontab -l 2>/dev/null; echo "*/5 * * * 5-6 $scriptLocation") | crontab -
  
 	
 		

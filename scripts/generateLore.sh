@@ -19,6 +19,10 @@ mapfile -t word_arr <<< "$words"
 while true; do
 	random_word="${word_arr[$RANDOM % ${#word_arr[@]}]}"
 
+	if [[ "$random_word" =~ ^\*+$ ]]; then
+        continue 
+    fi
+
 	encoded=$(echo -n "$random_word" | base64)
 	
 	file="$vault/encoded_$(date +%s)"

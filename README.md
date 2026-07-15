@@ -1,69 +1,88 @@
 # SYSAD_TASK1
 
-A comprehensive system administration automation project featuring bash scripts for user management, resource monitoring, security enforcement, and gamified activity tracking.
+*A system administration automation project containing Bash scripts for managing users, groups, permissions, creating vulnerabilities, penalty mechanisms, and calculating dynamic player scores.*
 
-## Overview
+![Bash](https://img.shields.io/badge/Bash-121011?style=for-the-badge&logo=gnubash&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![User Management](https://img.shields.io/badge/User%20Management-00599C?style=for-the-badge&logo=linux&logoColor=white)
+![Permissions](https://img.shields.io/badge/File%20Permissions-4CAF50?style=for-the-badge&logo=gnubash&logoColor=white)
+![YAML](https://img.shields.io/badge/YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white)
+![yq](https://img.shields.io/badge/yq-009688?style=for-the-badge&logo=yaml&logoColor=white)
+![curl](https://img.shields.io/badge/curl-073551?style=for-the-badge&logo=curl&logoColor=white)
+![sed](https://img.shields.io/badge/sed-555555?style=for-the-badge&logo=gnubash&logoColor=white)
+![awk](https://img.shields.io/badge/awk-6E4C13?style=for-the-badge&logo=gnubash&logoColor=white)
+![grep](https://img.shields.io/badge/grep-FF6F00?style=for-the-badge&logo=gnubash&logoColor=white)
+![find](https://img.shields.io/badge/find-607D8B?style=for-the-badge&logo=linux&logoColor=white)
+![Cron](https://img.shields.io/badge/Cron-3F51B5?style=for-the-badge&logo=linux&logoColor=white)
+![chafa](https://img.shields.io/badge/chafa-Terminal%20Graphics-FF6B35?style=for-the-badge&logo=gnubash&logoColor=white)
+![ACL](https://img.shields.io/badge/ACL-Access%20Control%20Lists-1976D2?style=for-the-badge&logo=linux&logoColor=white)
+![Base64](https://img.shields.io/badge/Base64-Encoding-4CAF50?style=for-the-badge&logo=gnubash&logoColor=white)
+![Regex](https://img.shields.io/badge/Regex-Regular%20Expressions-8E44AD?style=for-the-badge)
+![SSH](https://img.shields.io/badge/SSH-OpenSSH-111111?style=for-the-badge&logo=openssh&logoColor=white)
+![Sudo](https://img.shields.io/badge/Sudo-Privilege%20Management-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+![rbash](https://img.shields.io/badge/rbash-Restricted%20Shell-8B0000?style=for-the-badge&logo=gnubash&logoColor=white)
+![Symlink](https://img.shields.io/badge/Symlink-Obfuscation-795548?style=for-the-badge)
+![ASCII Art](https://img.shields.io/badge/ASCII-Art-00BCD4?style=for-the-badge)
 
-This repository contains a suite of shell scripts designed to manage a multi-tier user system with three distinct groups: **wardens** (administrators), **guards** (monitors), and **bashers** (restricted users). The system implements sophisticated logging, resource tracking, penalty mechanisms, and a competitive leaderboard system.
+---
 
 ## Project Structure
 
 ### Scripts
 
-- **`init.sh`** - Initialization script that sets up groups, sudo permissions, ACLs, and installs dependencies
-- **`initRoster.sh`** - Creates and configures user accounts based on roster.yaml; sets up SSH keys, aliases, and restricted shells
-- **`collectTax.sh`** - Monitors disk usage and removes oversized files from basher directories; logs activity to audit trail
-- **`generateLore.sh`** - Background process that generates base64-encoded words and stores them in the vault
-- **`verifyHeist.sh`** - Monitors Drop_Zone directories for encoded word files; triggers alerts when bashers successfully extract target words
-- **`trendSetters.sh`** - Computes dynamic leaderboard scores based on activity, streaks, and time decay
-- **`LPenalty.sh`** - Command audit and restriction enforcement; escalates users to restricted shell (`rbash`) if penalty threshold exceeded
-- **`NoCapSecurity.sh`** - Creates symlink obfuscation layer pointing to random system directories; conceals real vault location
-- **`secureVault.sh`** - Configures ACLs for the `/opt/Bashrot_vault` directory with group-based access control
-- **`wipeTimeline.sh`** - Purges vault contents and user files; resets ACLs and re-secures the vault
-- **`roster.yaml`** - Configuration file containing user definitions with SSH public keys and avatar URLs
+- **`init.sh`** - Initialization script that sets up groups, permissions for each group, ACLs, and installs dependencies.
+- **`initRoster.sh`** - Creates, deletes, and configures user accounts dynamically based on `roster.yaml`, sets up SSH keys, aliases, and `.avatar.txt`.
+- **`secureVault.sh`** - Configures ACLs for the `/opt/Bashrot_vault` directory with group-based access control and creates an intentional vulnerability inside the vault.
+- **`generateLore.sh`** - Background process that filters bad words using `sed`, generates Base64-encoded words, and stores them in the vault.
+- **`collectTax.sh`** - Monitors disk usage by bashers, removes oversized files from basher directories, and logs activity.
+- **`verifyHeist.sh`** - Monitors `Drop_Zone` directories of bashers for encoded word files and alerts all users when bashers successfully extract target words from the vault.
+- **`trendSetters.sh`** - Computes dynamic leaderboard scores based on streak, clutch, and decay factors.
+- **`wipeTimeline.sh`** - Removes vault contents and basher files without affecting the directory, resets ACLs, and recreates the vault.
+- **`LPenalty.sh`** - Monitors harmful commands executed by bashers and demotes users to a restricted shell (`rbash`) if the penalty threshold is exceeded.
+- **`NoCapSecurity.sh`** - Creates **6,767** symbolic links pointing to random system locations, where only one symlink resolves to the encoded file.
+- **`roster.yaml`** - Configuration file used for automated user creation.
+
+---
 
 ## Key Features
 
 ### User Management
-- Three-tier permission hierarchy (wardens > guards > bashers)
-- Automated user creation with home directories, SSH key setup, and custom aliases
+
+- Three-level hierarchy (`wardens` > `guards` > `bashers`)
+- Automated user creation with home directories, SSH key setup, custom aliases, and avatars using `yq`
+- Downloads user avatars using `curl` and converts them into ASCII art using `chafa`
 - Restricted shell (`rbash`) enforcement for policy violators
 
-### Security & Auditing
+### Security
+
 - ACL-based access control with group granularity
-- Command-level audit tracking via `LPenalty.sh` using bash DEBUG trap
+- Harmful command tracking via `LPenalty.sh` using the Bash `DEBUG` trap
 - Sudo rule configuration for privilege escalation management
+- Symlink randomization to conceal the vault location
+- Base64 encoding for stored data
 
 ### Resource Monitoring
-- Automated disk usage tracking and file removal
-- Scheduled execution via crontab (every 5 minutes on weekends)
-- Audit logging with file sizes and timestamps
 
-### Gamification
-- Activity-based scoring with streak multipliers
+- Automated monitoring of basher directory disk usage with removal of files exceeding **5 MB**
+- Scheduled execution via cron every **5 minutes on weekends**
+- Logging with file sizes and timestamps
+- Prevents `.bashrc` and `.avatar.txt` from being deleted
+
+### Leaderboard
+
+- Activity-based scoring using streak, decay, and clutch factors
 - Time-decay scoring algorithm
 - Dynamic leaderboard with position tracking and movement indicators
 - Word-stealing game mechanics via encoded file verification
 
-### Obfuscation & Defense
-- Symlink randomization to obscure vault location
-- Base64 encoding for stored data
-- Word filtering and replacement in content generation
-
-## Group Permissions
-
-| Group | Role | Capabilities |
-|-------|------|--------------|
-| **wardens** | Administrators | Full sudo access; read/execute on all scripts |
-| **guards** | Monitors | Collect tax execution; read vault; leaderboard access |
-| **bashers** | Restricted Users | Confined to limited bins; subject to command penalties; game participants |
+---
 
 ## Installation & Setup
 
 ### Initial Setup
 
-1. Place all files in the `/scripts/` directory
-2. Run the initialization script:
+1. Place all files in the `/scripts/` directory.
+2. Run the initialization scripts:
 
 ```bash
 sudo bash /scripts/init.sh
@@ -77,61 +96,6 @@ The following tools are required and installed by `init.sh`:
 - `yq` - YAML query processor
 - `bc` - Calculator
 - `base64` - Encoding/decoding utility
-- `acl` - Access control list utilities
+- `acl` - Access Control List utilities
 - `chafa` - Image-to-terminal renderer
-- `curl` - Data transfer utility
-
-## Scheduled Processes
-
-The following services run automatically:
-
-- **collectTax.sh** - Cron: `*/5 * * * 5-6` (Every 5 minutes on weekends)
-- **generateLore.sh** - Background daemon (30-second intervals)
-- **verifyHeist.sh** - Background daemon (60-second intervals)
-- **trendSetters.sh** - (Typically run on-demand or via cron)
-- **NoCapSecurity.sh** - Background daemon (45-minute intervals)
-
-## Penalty System
-
-The `LPenalty.sh` script monitors basher commands for restricted operations:
-
-| Restricted Command | Penalty Points |
-|--------------------|-----------------|
-| `rm -rf /` | 1,000,000 |
-| `rm -rf` | 800,000 |
-| `chmod 777 /` | 900,000 |
-| `chmod [0-7]* /` | 800,000 |
-| `cd /home/wardens` | 300,000 |
-| `ls /home/wardens` | 100,000 |
-| `cat /home/wardens` | 100,000 |
-
-**Threshold**: 2,912,008 points
-**Consequence**: User is escalated to restricted bash shell (`rbash`) for 30 minutes, then restored
-
-## Security Considerations
-
-⚠️ **This system is designed as an educational/training project with intentional security mechanisms.**
-
-- Users are confined via restricted shells and limited PATH
-- All commands are logged and penalized if they violate policy
-- Multiple layers of ACL enforcement separate privilege tiers
-- Audit trails are protected from basher access
-- Vault location is obfuscated through symlink randomization
-
-## Files Reference
-
-```
-scripts/
-├── collectTax.sh       # Tax collection and file removal
-├── generateLore.sh     # Encoded word generation
-├── init.sh             # System initialization
-├── initRoster.sh       # User provisioning
-├── LPenalty.sh         # Command penalty enforcement
-├── NoCapSecurity.sh    # Symlink obfuscation
-├── secureVault.sh      # Vault ACL configuration
-├── slang.txt           # Word list for the game
-├── trendSetters.sh     # Leaderboard computation
-├── verifyHeist.sh      # Heist verification and logging
-├── wipeTimeline.sh     # Vault and file cleanup
-└── roster.yaml         # User roster configuration
-```
+- `curl` -

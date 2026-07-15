@@ -135,7 +135,3 @@ scripts/
 ├── wipeTimeline.sh     # Vault and file cleanup
 └── roster.yaml         # User roster configuration
 ```
-
-## License
-
-This project is provided as-is for educational purposes.

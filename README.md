@@ -48,18 +48,17 @@
 
 ### User Management
 
-- Three-level hierarchy (`wardens` > `guards` > `bashers`)
+- Three groups with hierarchy (`wardens` > `guards` > `bashers`)
 - Automated user creation with home directories, SSH key setup, custom aliases, and avatars using `yq`
 - Downloads user avatars using `curl` and converts them into ASCII art using `chafa`
-- Restricted shell (`rbash`) enforcement for policy violators
 
 ### Security
 
-- ACL-based access control with group granularity
+- ACL - access control based on groups
 - Harmful command tracking via `LPenalty.sh` using the Bash `DEBUG` trap
-- Sudo rule configuration for privilege escalation management
-- Symlink randomization to conceal the vault location
+- Random Symlink generation to conceal the encoded text file location
 - Base64 encoding for stored data
+- Restricted shell (`rbash`) enforcement for bashers who execute harmful commands (exceeding a threshold)
 
 ### Resource Monitoring
 
@@ -71,9 +70,8 @@
 ### Leaderboard
 
 - Activity-based scoring using streak, decay, and clutch factors
-- Time-decay scoring algorithm
-- Dynamic leaderboard with position tracking and movement indicators
-- Word-stealing game mechanics via encoded file verification
+- Dynamic leaderboard with position deltas and the score
+- Used bc for carrying out complex calculations
 
 ---
 
@@ -98,4 +96,35 @@ The following tools are required and installed by `init.sh`:
 - `base64` - Encoding/decoding utility
 - `acl` - Access Control List utilities
 - `chafa` - Image-to-terminal renderer
-- `curl` -
+- `curl` - Data transfer utility
+
+---
+
+## Scheduled Processes
+
+The following services run automatically:
+
+- **`collectTax.sh`** - Cron: `*/5 * * * 5-6` (Every 5 minutes on weekends)
+- **`generateLore.sh`** - Background process (30-second interval)
+- **`verifyHeist.sh`** - Background process (60-second interval)
+- **`NoCapSecurity.sh`** - Background process (45-minute interval)
+
+---
+
+## File Structure
+
+```text
+scripts/
+├── collectTax.sh       # Enforce tax and file removal
+├── generateLore.sh     # Encoded word generation
+├── init.sh             # System initialization
+├── initRoster.sh       # Automatic user creation
+├── LPenalty.sh         # Montitors the bashers commands
+├── NoCapSecurity.sh    # Generates symlinks to conceal the real encoded file
+├── secureVault.sh      # Vault ACL configuration
+├── slang.txt           # List of words
+├── trendSetters.sh     # Leaderboard Calculation
+├── verifyHeist.sh      # Heist verification and alerting 
+├── wipeTimeline.sh     # Vault and file cleanup
+└── roster.yaml         # User configuration file
+```

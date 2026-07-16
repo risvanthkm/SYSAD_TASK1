@@ -35,7 +35,7 @@
 - **`secureVault.sh`** - Configures ACLs for the `/opt/Bashrot_vault` directory with group-based access control and creates an intentional vulnerability inside the vault.
 - **`generateLore.sh`** - Background process that filters bad words using `sed`, generates Base64-encoded words, and stores them in the vault.
 - **`collectTax.sh`** - Monitors disk usage by bashers, removes oversized files from basher directories, and logs activity.
-- **`verifyHeist.sh`** - Monitors `Drop_Zone` directories of bashers for encoded word files and alerts all users when bashers successfully extract target words from the vault.
+- **`verifyHeist.sh`** - Monitors `Drop_Zone` directories of bashers for encoded word files and alerts all users when bashers successfully extract the target word.
 - **`trendSetters.sh`** - Computes dynamic leaderboard scores based on streak, clutch, and decay factors.
 - **`wipeTimeline.sh`** - Removes vault contents and basher files without affecting the directory, resets ACLs, and recreates the vault.
 - **`LPenalty.sh`** - Monitors harmful commands executed by bashers and demotes users to a restricted shell (`rbash`) if the penalty threshold is exceeded.
@@ -64,7 +64,7 @@
 
 - Automated monitoring of basher directory disk usage with removal of files exceeding **5 MB**
 - Scheduled execution via cron every **5 minutes on Friday and Saturday**
-- Logging with file sizes and timestamps
+- Logging the metadata of deleted files
 - Prevents `.bashrc` and `.avatar.txt` from being deleted
 
 ### Leaderboard
@@ -97,17 +97,6 @@ The following tools are required and installed by `init.sh`:
 - `acl` - Access Control List utilities
 - `chafa` - Image-to-terminal renderer
 - `curl` - Data transfer utility
-
----
-
-## Scheduled Processes
-
-The following services run automatically:
-
-- **`collectTax.sh`** - Cron: `*/5 * * * 5-6` (Every 5 minutes on weekends)
-- **`generateLore.sh`** - Background process (30-second interval)
-- **`verifyHeist.sh`** - Background process (60-second interval)
-- **`NoCapSecurity.sh`** - Background process (45-minute interval)
 
 ---
 

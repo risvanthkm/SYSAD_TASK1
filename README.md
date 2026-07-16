@@ -63,14 +63,14 @@
 ### Resource Monitoring
 
 - Automated monitoring of basher directory disk usage with removal of files exceeding **5 MB**
-- Scheduled execution via cron every **5 minutes on weekends**
+- Scheduled execution via cron every **5 minutes on Friday and Saturday**
 - Logging with file sizes and timestamps
 - Prevents `.bashrc` and `.avatar.txt` from being deleted
 
 ### Leaderboard
 
-- Activity-based scoring using streak, decay, and clutch factors
-- Dynamic leaderboard with position deltas and the score
+- Calculating scores using streak, decay, and clutch factors
+- Dynamic leaderboard with position deltas and the scores
 - Used bc for carrying out complex calculations
 
 ---
